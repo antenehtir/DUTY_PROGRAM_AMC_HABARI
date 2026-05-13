@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GP Shift Program – AMC & HabariDOC</title>
-  <!-- jsPDF for PDF export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
   <style>
@@ -33,7 +32,7 @@
       background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
       border-radius: 28px;
       padding: 30px 28px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(59, 130, 246, 0.15);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08), 0 0 0 1px rgba(59,130,246,0.15);
       border: 1px solid #cbd5e1;
       margin: 10px 0;
     }
@@ -69,7 +68,7 @@
     .tabs {
       display: flex;
       gap: 10px;
-      margin-bottom: 28px;
+      margin-bottom: 20px;
     }
 
     .tab-btn {
@@ -97,13 +96,40 @@
     .tab-btn.active {
       background: #1a5276;
       color: #fff;
-      box-shadow: 0 10px 20px rgba(26, 82, 118, 0.22);
+      box-shadow: 0 10px 20px rgba(26,82,118,0.22);
       transform: translateY(-1px);
     }
 
     .tab-btn.active.habari {
       background: #0e6251;
-      box-shadow: 0 10px 20px rgba(14, 98, 81, 0.25);
+      box-shadow: 0 10px 20px rgba(14,98,81,0.25);
+    }
+
+    /* Rule box */
+    .rule-box {
+      background: #ffffffdd;
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 24px;
+      border-left: 6px solid #1a5276;
+      font-size: 0.92rem;
+      color: #334155;
+      line-height: 1.5;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    }
+
+    .rule-box.habari-rule {
+      border-left-color: #0e6251;
+    }
+
+    .rule-box strong {
+      color: #0f172a;
+    }
+
+    .rule-box .contact-note {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #6366f1;
     }
 
     /* Date selection area */
@@ -146,7 +172,7 @@
       color: #0f172a;
     }
 
-    .custom-date .view-btn {
+    .blue-btn {
       padding: 10px 18px;
       background: #3b82f6;
       color: #fff;
@@ -159,7 +185,7 @@
       white-space: nowrap;
     }
 
-    .custom-date .view-btn:hover {
+    .blue-btn:hover {
       background: #2563eb;
     }
 
@@ -172,21 +198,21 @@
 
     .today-duty-btn {
       padding: 12px 24px;
-      background: #f97316;
+      background: #3b82f6;
       color: #fff;
       border: none;
       border-radius: 12px;
       font-weight: 700;
       font-size: 1rem;
       cursor: pointer;
-      transition: all 0.25s;
-      box-shadow: 0 6px 16px rgba(249, 115, 22, 0.3);
+      transition: background 0.25s;
+      box-shadow: 0 6px 16px rgba(59,130,246,0.3);
       white-space: nowrap;
     }
 
     .today-duty-btn:hover {
-      background: #ea580c;
-      box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
+      background: #2563eb;
+      box-shadow: 0 8px 20px rgba(59,130,246,0.4);
       transform: translateY(-1px);
     }
 
@@ -280,10 +306,14 @@
       margin-top: 4px;
     }
 
-    .phone-btn {
-      background: #16a34a;
-      color: #fff;
-      padding: 10px 22px;
+    .action-btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .phone-btn, .sms-btn {
+      padding: 10px 18px;
       border-radius: 30px;
       text-decoration: none;
       font-weight: 600;
@@ -296,10 +326,25 @@
       white-space: nowrap;
     }
 
+    .phone-btn {
+      background: #16a34a;
+      color: #fff;
+    }
+
     .phone-btn:hover {
       background: #15803d;
       box-shadow: 0 8px 18px rgba(22,163,74,0.4);
-      transform: scale(1.02);
+    }
+
+    .sms-btn {
+      background: #3b82f6;
+      color: #fff;
+      box-shadow: 0 6px 14px rgba(59,130,246,0.3);
+    }
+
+    .sms-btn:hover {
+      background: #2563eb;
+      box-shadow: 0 8px 18px rgba(59,130,246,0.4);
     }
 
     /* Download section */
@@ -334,7 +379,7 @@
 
     .pdf-btn {
       padding: 12px 24px;
-      background: #6366f1;
+      background: #3b82f6;
       color: #fff;
       border: none;
       border-radius: 12px;
@@ -342,14 +387,14 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.25s;
-      box-shadow: 0 6px 16px rgba(99,102,241,0.25);
+      box-shadow: 0 6px 16px rgba(59,130,246,0.25);
       letter-spacing: 0.3px;
       margin-left: auto;
     }
 
     .pdf-btn:hover {
-      background: #4f46e5;
-      box-shadow: 0 10px 22px rgba(99,102,241,0.4);
+      background: #2563eb;
+      box-shadow: 0 10px 22px rgba(59,130,246,0.4);
       transform: translateY(-2px);
     }
 
@@ -362,8 +407,12 @@
         align-items: flex-start;
         gap: 14px;
       }
-      .phone-btn {
+      .action-btns {
         width: 100%;
+        justify-content: stretch;
+      }
+      .phone-btn, .sms-btn {
+        flex: 1;
         justify-content: center;
       }
       .tab-btn {
@@ -392,7 +441,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- Dynamic logo area -->
     <div class="logo-area">
       <img id="logoAmc" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF6rGrBm2PjT-o1OhB4PwQnLr86bqEIXHX4w&s" alt="American Medical Center" style="display: block; margin: 0 auto;">
       <img id="logoHabari" src="https://amcethiopia.com/images/e/habaridoc-logo-2-500.png" alt="HabariDOC Helpline" style="display: none; margin: 0 auto; height: 60px;">
@@ -406,12 +454,15 @@
       <button id="tab-habari" class="tab-btn">📞 HabariDOC Helpline</button>
     </div>
 
+    <!-- General shift rule box (dynamic) -->
+    <div id="ruleBox" class="rule-box"></div>
+
     <!-- Date options -->
     <div class="date-options">
       <div class="custom-date">
         <label for="datePicker">📅 Select date:</label>
         <input type="date" id="datePicker">
-        <button id="viewDateBtn" class="view-btn">View</button>
+        <button id="viewDateBtn" class="blue-btn">View</button>
       </div>
       <div class="today-duty-wrapper">
         <button id="todayDutyBtn" class="today-duty-btn">📌 Today's Duty</button>
@@ -425,18 +476,10 @@
     <div class="download-section">
       <label for="pdfMonth">Month:</label>
       <select id="pdfMonth">
-        <option value="0">January</option>
-        <option value="1">February</option>
-        <option value="2">March</option>
-        <option value="3">April</option>
-        <option value="4">May</option>
-        <option value="5">June</option>
-        <option value="6">July</option>
-        <option value="7">August</option>
-        <option value="8">September</option>
-        <option value="9">October</option>
-        <option value="10">November</option>
-        <option value="11">December</option>
+        <option value="0">January</option><option value="1">February</option><option value="2">March</option>
+        <option value="3">April</option><option value="4">May</option><option value="5">June</option>
+        <option value="6">July</option><option value="7">August</option><option value="8">September</option>
+        <option value="9">October</option><option value="10">November</option><option value="11">December</option>
       </select>
       <label for="pdfYear">Year:</label>
       <input type="number" id="pdfYear" min="2026" max="2030" value="2026" step="1">
@@ -446,21 +489,17 @@
 
   <script>
     (function() {
-      // ----- AUTO-UPDATE VERSION CHECK -----
-      // CHANGE THIS VERSION STRING EACH TIME YOU DEPLOY NEW CODE
-      const APP_VERSION = '2026-05-13.001';
-      
+      // ----- AUTO-UPDATE VERSION -----
+      const APP_VERSION = '2026-05-13.003'; // change on each deployment
       const storedVersion = localStorage.getItem('appVersion');
       if (storedVersion !== APP_VERSION) {
         localStorage.setItem('appVersion', APP_VERSION);
-        // Reload the page to get the new version, but only if this isn't already a reload
         if (!sessionStorage.getItem('versionChecked')) {
           sessionStorage.setItem('versionChecked', 'true');
           window.location.reload(true);
-          return; // stop execution for this old version
+          return;
         }
       }
-      // Clear the session flag after load so future updates trigger reload
       sessionStorage.removeItem('versionChecked');
 
       // ---------- DATA ----------
@@ -473,20 +512,17 @@
         { name: "Dr. Helina", phone: "+251913110147" },
         { name: "Dr. Betelhem", phone: "+251977146236" }
       ];
-
       const habariGPs = [
         { name: "Dr. Miraf", phone: "+251929040370" },
         { name: "Dr. Abenezer", phone: "+251967304474" },
         { name: "Dr. Mekdes", phone: "+251931521741" },
         { name: "Dr. Eden", phone: "+251912891106" }
       ];
-
       const ethiopianHolidays = new Set([
-        '2026-01-07', '2026-01-19', '2026-03-02', '2026-04-10',
-        '2026-04-12', '2026-05-01', '2026-05-05', '2026-05-28',
-        '2026-09-11', '2026-09-27'
+        '2026-01-07','2026-01-19','2026-03-02','2026-04-10',
+        '2026-04-12','2026-05-01','2026-05-05','2026-05-28',
+        '2026-09-11','2026-09-27'
       ]);
-
       const amcRefMonday = new Date(2026, 4, 11);
       const swapDate = new Date(2026, 5, 13);
       const habariRefMonday = new Date(2026, 4, 11);
@@ -499,11 +535,9 @@
         date.setHours(0,0,0,0);
         return date;
       }
-
       function formatYMD(d) {
         return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
       }
-
       function isWeekend(d) { return d.getDay() === 0 || d.getDay() === 6; }
       function isHoliday(d) { return ethiopianHolidays.has(formatYMD(d)); }
 
@@ -511,14 +545,11 @@
         const diff = Math.floor((date - amcRefMonday) / (1000*60*60*24));
         return amcNightCycle[((diff % 3) + 3) % 3];
       }
-
       function getAmcDayAssign(date) {
-        const swapped = date >= swapDate;
-        return swapped 
+        return date >= swapDate
           ? { opd: amcDayGPs.ward, ward: amcDayGPs.opd }
           : { opd: amcDayGPs.opd, ward: amcDayGPs.ward };
       }
-
       function getHabariShifts(date) {
         const mon = getMonday(date);
         const weekDiff = Math.floor((mon - habariRefMonday) / (7*24*60*60*1000));
@@ -526,7 +557,6 @@
         const dayGP = habariGPs[dayIdx];
         const others = [habariGPs[(dayIdx+1)%4], habariGPs[(dayIdx+2)%4], habariGPs[(dayIdx+3)%4]];
         const nightOrder = [others[2], others[1], others[0]];
-
         const dow = date.getDay();
         if (dow === 0) {
           return {
@@ -543,6 +573,32 @@
         };
       }
 
+      // ---------- RULE BOX CONTENT ----------
+      const amcRules = `
+        <strong>American Medical Center – Shift Rules</strong><br>
+        • Weekdays (Mon-Fri): Daytime (8 AM-5 PM) – OPD & Ward covered by Dr. Yonathan & Dr. Eden (roles swap every 2 months; next swap Jun 13).<br>
+        • Night shifts (Mon-Fri 6 PM-8 AM) and weekends (Sat-Sun 24h) are covered by rotating duty GPs: Dr. Dawit, Dr. Helina, Dr. Betelhem (in sequence).<br>
+        • On Ethiopian public holidays, the night/weekend GP covers the whole 24h.
+      `;
+      const habariRules = `
+        <strong>HabariDOC Helpline – Shift Rules</strong><br>
+        • Weekdays (Mon-Sat): Daytime (8 AM-5 PM) – one designated GP per week (rotates weekly: Miraf → Abenezer → Mekdes → Eden).<br>
+        • Night shifts (Mon-Fri 5 PM-2 AM, Sat 5 PM-8 AM Sun) and Sunday (day 8 AM-5 PM / night 5 PM-8 AM Mon) covered by the remaining three GPs in a fixed sequence.<br>
+        • No holiday exceptions – 12‑hour shifts always apply.
+      `;
+      const contactNote = `<div class="contact-note">📩 For technical issues, reach out to <strong>@Antenehtir</strong> on Telegram.</div>`;
+
+      function updateRuleBox(centre) {
+        const box = document.getElementById('ruleBox');
+        if (centre === 'amc') {
+          box.innerHTML = amcRules + contactNote;
+          box.classList.remove('habari-rule');
+        } else {
+          box.innerHTML = habariRules + contactNote;
+          box.classList.add('habari-rule');
+        }
+      }
+
       // ---------- RENDER ----------
       function renderSchedule(centre, date) {
         const container = document.getElementById('scheduleDisplay');
@@ -553,7 +609,6 @@
           const holiday = isHoliday(date);
           const duty = getAmcDutyGP(date);
           const assign = getAmcDayAssign(date);
-
           if (weekday && !holiday) {
             container.appendChild(createCard(assign.opd, 'OPD', '8:00 AM – 5:00 PM', false, false));
             container.appendChild(createCard(assign.ward, 'Ward', '8:00 AM – 5:00 PM', false, false));
@@ -574,7 +629,6 @@
         if (isHabari) cls += ' habari-card';
         else cls += ' amc-card';
         if (isNight) cls += ' night';
-
         card.className = cls;
         card.innerHTML = `
           <div class="shift-details">
@@ -584,7 +638,10 @@
             </div>
             <div class="shift-time">⏰ ${time}</div>
           </div>
-          <a href="tel:${gp.phone}" class="phone-btn">📞 Call</a>
+          <div class="action-btns">
+            <a href="tel:${gp.phone}" class="phone-btn">📞 Call</a>
+            <a href="sms:${gp.phone}" class="sms-btn">💬 SMS</a>
+          </div>
         `;
         return card;
       }
@@ -613,24 +670,18 @@
           cur.setDate(cur.getDate() + 7);
           if (cur.getMonth() > month && weeks.length >= 5) break;
         }
-
-        const formatWeekLabel = (date) => {
-          return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        };
+        const formatWeekLabel = (date) =>
+          date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
         let headers, body;
-
         if (centre === 'amc') {
           headers = [['Day', ...weeks.map(w => formatWeekLabel(w[0]))]];
           body = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((dayName, dayIdx) => {
             const row = [dayName];
             weeks.forEach(week => {
               const date = week[dayIdx];
-              if (date.getMonth() !== month) {
-                row.push('');
-              } else {
-                row.push(getAmcDutyGP(date).name);
-              }
+              if (date.getMonth() !== month) row.push('');
+              else row.push(getAmcDutyGP(date).name);
             });
             return row;
           });
@@ -643,14 +694,12 @@
             headerRow2.push('Day time', 'Night shift');
           });
           headers = [headerRow1, headerRow2];
-
           body = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((dayName, dayIdx) => {
             const row = [dayName];
             weeks.forEach(week => {
               const date = week[dayIdx];
-              if (date.getMonth() !== month) {
-                row.push('', '');
-              } else {
+              if (date.getMonth() !== month) row.push('', '');
+              else {
                 const s = getHabariShifts(date);
                 row.push(s.day ? s.day.gp.name : '', s.night ? s.night.gp.name : '');
               }
@@ -658,7 +707,6 @@
             return row;
           });
         }
-
         doc.autoTable({
           head: headers,
           body: body,
@@ -666,11 +714,10 @@
           styles: { fontSize: 9, cellPadding: 3 },
           headStyles: { fillColor: centre === 'amc' ? [26,82,118] : [14,98,81] }
         });
-
         doc.save(`${centre}_GP_shift_${year}_${month+1}.pdf`);
       }
 
-      // ---------- UI ----------
+      // ---------- UI LOGIC ----------
       let currentCentre = 'amc';
       const datePicker = document.getElementById('datePicker');
       const viewDateBtn = document.getElementById('viewDateBtn');
@@ -685,13 +732,11 @@
         const date = new Date(datePicker.value + 'T00:00:00');
         renderSchedule(currentCentre, date);
       }
-
       function loadTodayDuty() {
         const today = new Date();
         datePicker.value = formatYMD(today);
         renderSchedule(currentCentre, today);
       }
-
       function switchCentre(centre) {
         currentCentre = centre;
         tabAmc.classList.toggle('active', centre === 'amc');
@@ -699,18 +744,19 @@
         tabHabari.classList.toggle('habari', centre === 'habari');
         logoAmc.style.display = centre === 'amc' ? 'block' : 'none';
         logoHabari.style.display = centre === 'habari' ? 'block' : 'none';
+        updateRuleBox(centre);
         loadSelectedDate();
       }
 
       function initialize() {
+        updateRuleBox('amc');
         const today = new Date();
         datePicker.value = formatYMD(today);
-        renderSchedule(currentCentre, today);
+        renderSchedule('amc', today);
+        const now = new Date();
+        document.getElementById('pdfMonth').value = now.getMonth();
+        document.getElementById('pdfYear').value = now.getFullYear();
       }
-
-      const now = new Date();
-      document.getElementById('pdfMonth').value = now.getMonth();
-      document.getElementById('pdfYear').value = now.getFullYear();
 
       viewDateBtn.addEventListener('click', loadSelectedDate);
       todayDutyBtn.addEventListener('click', loadTodayDuty);
