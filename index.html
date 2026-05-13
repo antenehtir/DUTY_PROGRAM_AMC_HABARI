@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GP Shift Program – AMC & HabariDOC</title>
   <!-- jsPDF for PDF export -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js">
-  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -108,7 +106,7 @@
       box-shadow: 0 10px 20px rgba(14, 98, 81, 0.25);
     }
 
-    /* Date selection area – two clear options */
+    /* Date selection area */
     .date-options {
       display: flex;
       gap: 14px;
@@ -196,7 +194,7 @@
       margin-bottom: 24px;
     }
 
-    /* ----- Shift Cards ----- */
+    /* Shift Cards */
     .shift-card {
       border-radius: 16px;
       padding: 16px 20px;
@@ -408,7 +406,7 @@
       <button id="tab-habari" class="tab-btn">📞 HabariDOC Helpline</button>
     </div>
 
-    <!-- Two clear options: custom date + Today's Duty -->
+    <!-- Date options -->
     <div class="date-options">
       <div class="custom-date">
         <label for="datePicker">📅 Select date:</label>
@@ -423,7 +421,7 @@
     <!-- Schedule display -->
     <div class="schedule-box" id="scheduleDisplay"></div>
 
-    <!-- Download section with month/year pickers -->
+    <!-- Download section -->
     <div class="download-section">
       <label for="pdfMonth">Month:</label>
       <select id="pdfMonth">
@@ -448,6 +446,23 @@
 
   <script>
     (function() {
+      // ----- AUTO-UPDATE VERSION CHECK -----
+      // CHANGE THIS VERSION STRING EACH TIME YOU DEPLOY NEW CODE
+      const APP_VERSION = '2026-05-13.001';
+      
+      const storedVersion = localStorage.getItem('appVersion');
+      if (storedVersion !== APP_VERSION) {
+        localStorage.setItem('appVersion', APP_VERSION);
+        // Reload the page to get the new version, but only if this isn't already a reload
+        if (!sessionStorage.getItem('versionChecked')) {
+          sessionStorage.setItem('versionChecked', 'true');
+          window.location.reload(true);
+          return; // stop execution for this old version
+        }
+      }
+      // Clear the session flag after load so future updates trigger reload
+      sessionStorage.removeItem('versionChecked');
+
       // ---------- DATA ----------
       const amcDayGPs = {
         opd: { name: "Dr. Yonathan", phone: "+251924002539" },
@@ -472,11 +487,11 @@
         '2026-09-11', '2026-09-27'
       ]);
 
-      const amcRefMonday = new Date(2026, 4, 11);    // May 11, 2026 (Dawit start)
-      const swapDate = new Date(2026, 5, 13);        // June 13, 2026
+      const amcRefMonday = new Date(2026, 4, 11);
+      const swapDate = new Date(2026, 5, 13);
       const habariRefMonday = new Date(2026, 4, 11);
 
-      // ---------- HELPER FUNCTIONS ----------
+      // ---------- HELPERS ----------
       function getMonday(d) {
         const date = new Date(d);
         const day = date.getDay();
@@ -521,17 +536,14 @@
         }
         let nightIdx = (dow >= 1 && dow <= 5) ? (dow-1)%3 : 2;
         const nightGP = nightOrder[nightIdx];
-        // Weekday nights now start at 5:00 PM
-        const nightTime = dow === 6 
-          ? "5:00 PM – 8:00 AM (Sun)" 
-          : "5:00 PM – 2:00 AM(next day)";
+        const nightTime = dow === 6 ? "5:00 PM – 8:00 AM (Sun)" : "5:00 PM – 2:00 AM";
         return {
           day: { gp: dayGP, time: "8:00 AM – 5:00 PM" },
           night: { gp: nightGP, time: nightTime }
         };
       }
 
-      // ---------- RENDER DAILY SCHEDULE ----------
+      // ---------- RENDER ----------
       function renderSchedule(centre, date) {
         const container = document.getElementById('scheduleDisplay');
         container.innerHTML = '';
@@ -577,7 +589,7 @@
         return card;
       }
 
-      // ---------- PDF GENERATION (MONTH/ YEAR SELECTION) ----------
+      // ---------- PDF ----------
       function generateMonthlyPDF(centre, year, month) {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
@@ -658,7 +670,7 @@
         doc.save(`${centre}_GP_shift_${year}_${month+1}.pdf`);
       }
 
-      // ---------- UI LOGIC ----------
+      // ---------- UI ----------
       let currentCentre = 'amc';
       const datePicker = document.getElementById('datePicker');
       const viewDateBtn = document.getElementById('viewDateBtn');
@@ -702,7 +714,6 @@
 
       viewDateBtn.addEventListener('click', loadSelectedDate);
       todayDutyBtn.addEventListener('click', loadTodayDuty);
-
       tabAmc.addEventListener('click', () => switchCentre('amc'));
       tabHabari.addEventListener('click', () => switchCentre('habari'));
 
