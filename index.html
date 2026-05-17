@@ -35,6 +35,7 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.08), 0 0 0 1px rgba(59,130,246,0.15);
       border: 1px solid #cbd5e1;
       margin: 10px 0;
+      position: relative;  /* for potential context */
     }
 
     .logo-area {
@@ -129,7 +130,18 @@
     .rule-box .contact-note {
       margin-top: 10px;
       font-size: 0.85rem;
+    }
+
+    .rule-box .contact-note a {
       color: #6366f1;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px dashed #6366f1;
+    }
+
+    .rule-box .contact-note a:hover {
+      color: #4f46e5;
+      border-bottom-style: solid;
     }
 
     /* Date selection area */
@@ -398,6 +410,54 @@
       transform: translateY(-2px);
     }
 
+    /* ========== FLOATING CALL BUTTON ========== */
+    .floating-call-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #16a34a;
+      color: #fff;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      box-shadow: 0 8px 20px rgba(22,163,74,0.4);
+      text-decoration: none;
+      z-index: 1000;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .floating-call-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 28px rgba(22,163,74,0.5);
+    }
+
+    .floating-call-btn span {
+      /* accessible label hidden visually but available for screen readers */
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+
+    /* On smaller screens, slightly smaller and closer to edge */
+    @media (max-width: 600px) {
+      .floating-call-btn {
+        width: 52px;
+        height: 52px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 1.6rem;
+      }
+    }
+
     @media (max-width: 600px) {
       .container {
         padding: 20px 16px;
@@ -440,6 +500,12 @@
   </style>
 </head>
 <body>
+  <!-- Floating Call Button (support) -->
+  <a href="tel:+251912422707" class="floating-call-btn" title="Call support">
+    📞
+    <span>Call support</span>
+  </a>
+
   <div class="container">
     <div class="logo-area">
       <img id="logoAmc" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF6rGrBm2PjT-o1OhB4PwQnLr86bqEIXHX4w&s" alt="American Medical Center" style="display: block; margin: 0 auto;">
@@ -490,7 +556,7 @@
   <script>
     (function() {
       // ----- AUTO-UPDATE VERSION -----
-      const APP_VERSION = '2026-05-13.003'; // change on each deployment
+      const APP_VERSION = '2026-05-17.001'; // updated version
       const storedVersion = localStorage.getItem('appVersion');
       if (storedVersion !== APP_VERSION) {
         localStorage.setItem('appVersion', APP_VERSION);
@@ -583,10 +649,11 @@
       const habariRules = `
         <strong>HabariDOC Helpline – Shift Rules</strong><br>
         • Weekdays (Mon-Sat): Daytime (8 AM-5 PM) – one designated GP per week (rotates weekly: Miraf → Abenezer → Mekdes → Eden).<br>
-        • Night shifts (Mon-Fri 5 PM-2 AM, Sat 5 PM-8 AM Sun) and Sunday (day 8 AM-5 PM / night 5 PM-8 AM Mon) covered by the remaining three GPs in a fixed sequence.<br>
+        • All Night shifts (Mon-sun 5 PM-2 AM )  covered by the remaining three GPs in a fixed sequence.<br>
         • No holiday exceptions – 12‑hour shifts always apply.
       `;
-      const contactNote = `<div class="contact-note">📩 For technical issues, reach out to <strong>@Antenehtir</strong> on Telegram.</div>`;
+      // Updated contact note with clickable Telegram link
+      const contactNote = `<div class="contact-note">📩 For technical issues, reach out to <a href="https://t.me/Antenehtir" target="_blank" rel="noopener">@Antenehtir</a> on Telegram.</div>`;
 
       function updateRuleBox(centre) {
         const box = document.getElementById('ruleBox');
